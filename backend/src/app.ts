@@ -1,13 +1,12 @@
 import express from "express";
+import rootRouter from "./routes/index";
 
 const app = express();
 
 // Basic middleware (safe to include now)
 app.use(express.json());
 
-// Temporary health route
-app.get("/", (_req, res) => {
-  res.status(200).send("API is running");
-});
+// Mount routers
+app.use("/", rootRouter);
 
 export default app;

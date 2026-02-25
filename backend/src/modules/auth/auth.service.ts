@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import prisma from "../../lib/prisma";
+import jwt from "jsonwebtoken";
 import { LoginInput, RegisterInput } from "./auth.schema";
 
 export const registerUser = async (data: RegisterInput) => {
@@ -49,9 +50,14 @@ export const loginUser = async (data: LoginInput) => {
     throw new Error("Invalid email or password");
   }
 
+  const token = jwt.sign(
+    { userId: user.id },
+    process.env.JWT_SECRET as string,
+    { expiresIn: "15m" },
+  );
+
   return {
-    id: user.id,
-    email: user.email,
-    createdAt: user.createdAt,
+    token,
+    user: { id: user.id, email: user.email, createdAt: user.createdAt },
   };
 };

@@ -19,11 +19,12 @@ export const register = async (_req: Request, res: Response) => {
 
 export const login = async (_req: Request, res: Response) => {
   try {
-    const user = await authService.loginUser(_req.body);
+    const result = await authService.loginUser(_req.body);
 
     return res.status(200).json({
       message: "Login successful",
-      user,
+      token: result.token,
+      user: result.user,
     });
   } catch (error: any) {
     return res.status(401).json({

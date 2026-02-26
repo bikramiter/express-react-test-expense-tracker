@@ -1,14 +1,13 @@
-import { useEffect } from "react";
-import api from "./api/client";
+import { Routes, Route, Navigate } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
-  useEffect(() => {
-    api.get("/api/auth/login").catch(() => {
-      console.log("Backend reachable");
-    });
-  }, []);
-
-  return <h1>Expense Tracker</h1>;
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<LoginPage />} />
+    </Routes>
+  );
 }
 
 export default App;

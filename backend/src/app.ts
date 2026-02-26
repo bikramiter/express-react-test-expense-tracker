@@ -1,9 +1,14 @@
 import express from "express";
+import cors from "cors";
 import rootRouter from "./routes/index";
 
 const app = express();
 
-// Basic middleware (safe to include now)
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 app.use(express.json());
 
 // Mount routers

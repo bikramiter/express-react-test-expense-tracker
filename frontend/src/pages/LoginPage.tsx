@@ -1,11 +1,14 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/client";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
@@ -19,8 +22,7 @@ function LoginPage() {
       const { token } = response.data;
 
       localStorage.setItem("token", token);
-
-      alert("Login successful");
+      navigate("/dashboard");
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");
     }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api/client";
 
 interface Expense {
@@ -13,6 +14,7 @@ function DashboardPage() {
   const [amount, setAmount] = useState("");
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -45,6 +47,11 @@ function DashboardPage() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <div style={{ maxWidth: 600, margin: "50px auto" }}>
       <form onSubmit={handleCreateExpense} style={{ marginBottom: 20 }}>
@@ -74,7 +81,12 @@ function DashboardPage() {
           Add
         </button>
       </form>
-      <h2>My Expenses</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+        <h2 style={{ margin: 0 }}>My Expenses</h2>
+        <button onClick={handleLogout} style={{ padding: "8px 16px", cursor: "pointer" }}>
+          Logout
+        </button>
+      </div>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
